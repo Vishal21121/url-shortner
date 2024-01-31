@@ -14,6 +14,16 @@ export const createNewShortUrl = async (req, res) => {
         })
     }
     try {
+        const foundLongUrl = await Url.findOne({ redirectUrl: longUrl })
+        if (foundLongUrl) {
+            return res.status(400).json({
+                status: "failure",
+                data: {
+                    statusCode: 400,
+                    message: "short url already exists for this url "
+                }
+            })
+        }
         const createdUrl = await Url.create({ shortUrl, redirectUrl: longUrl, clicked: 0 })
         return res.status(201).json({
             status: "success",
