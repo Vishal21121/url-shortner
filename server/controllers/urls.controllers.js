@@ -82,3 +82,43 @@ export const findLongUrl = async (req, res) => {
         })
     }
 }
+
+export const findUrlClickedCount = async (req, res) => {
+    const { id } = req.params
+    if (!id) {
+        return res.status(400).json({
+            status: "failure",
+            data: {
+                statusCode: 400,
+                message: "Please provide a url"
+            }
+        })
+    }
+    try {
+        const foundCount = await Url.findOne({ shortUrl: id })
+        if (!foundCount) {
+            return res.status(404).json({
+                status: "failure",
+                data: {
+                    statusCode: 404,
+                    value: null
+                }
+            })
+        }
+        return res.status(200).json({
+            status: "success",
+            data: {
+                statusCode: 200,
+                value: foundCount.clicked
+            }
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: "failure",
+            data: {
+                statusCode: 500,
+                message: error.message || "Internal server error"
+            }
+        })
+    }
+}
