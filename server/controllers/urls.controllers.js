@@ -1,9 +1,7 @@
-import { nanoid } from "nanoid";
 import Url from "../models/url.models.js";
 
 export const createNewShortUrl = async (req, res) => {
-    const { longUrl } = req.body
-    const shortUrl = nanoid(8)
+    const { longUrl, aliase } = req.body
     if (!longUrl) {
         return res.status(400).json({
             status: "failure",
@@ -13,23 +11,41 @@ export const createNewShortUrl = async (req, res) => {
             }
         })
     }
+    if (!aliase) {
+        return res.status(400).json({
+            status: "failure",
+            data: {
+                statusCode: 400,
+                message: "Please provide an aliase"
+            }
+        })
+    }
+    if (aliase.length < 8 || aliase.length > 13) {
+        return res.status(400).json({
+            status: "failure",
+            data: {
+                statusCode: 400,
+                message: "Please provide aliase within 8 to 13 characters"
+            }
+        })
+    }
     try {
-        const foundLongUrl = await Url.findOne({ redirectUrl: longUrl })
-        if (foundLongUrl) {
+        const foundAliase = await Url.findOne({ shortUrl: aliase })
+        if (foundAliase) {
             return res.status(400).json({
                 status: "failure",
                 data: {
                     statusCode: 400,
-                    message: "short url already exists for this url "
+                    message: "This aliase already exists"
                 }
             })
         }
-        const createdUrl = await Url.create({ shortUrl, redirectUrl: longUrl, clicked: 0 })
+        const createdUrl = await Url.create({ shortUrl: aliase, redirectUrl: longUrl, clicked: 0 })
         return res.status(201).json({
             status: "success",
             data: {
                 statusCode: 201,
-                value: createdUrl
+                value: `http://localhost:8080/api/v1/${createdUrl.shortUrl}`
             }
         })
     } catch (error) {
