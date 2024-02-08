@@ -12,6 +12,10 @@ const UrlSchema = mongoose.Schema({
     },
     clicked: {
         type: Number,
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
     }
 }, { timestamps: true, })
 
