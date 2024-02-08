@@ -23,6 +23,10 @@ const Sigin = () => {
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Login</button>
                         </div>
+                        <div className='flex gap-2 mx-auto'>
+                            <span>Don't have an account?</span>
+                            <a href="" className='hover:text-blue-500'>Sign Up</a>
+                        </div>
                     </form>
                 </div>
             </div>
