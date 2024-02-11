@@ -88,7 +88,7 @@ const Home = () => {
                 transition={Bounce}
             />
             <div className="navbar bg-neutral text-neutral-content w-full h-fit">
-                <button className="btn btn-ghost text-xl">daisyUI</button>
+                <button className="btn btn-ghost text-xl">URL Shortner</button>
             </div>
             <div className='w-1/2 mt-8 flex justify-center'>
                 <div className='ring-2 ring-gray-600 mt-8 ml-8 px-4 gap-4 w-3/4 flex flex-col rounded pb-4 pt-2'>
