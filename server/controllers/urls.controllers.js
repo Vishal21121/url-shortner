@@ -4,42 +4,6 @@ import { User } from "../models/user.models.js"
 
 export const createNewShortUrl = async (req, res) => {
     const { longUrl, aliase, userId } = req.body
-    // if (!longUrl) {
-    //     return res.status(400).json({
-    //         status: "failure",
-    //         data: {
-    //             statusCode: 400,
-    //             message: "Please provide a url"
-    //         }
-    //     })
-    // }
-    // if (!aliase) {
-    //     return res.status(400).json({
-    //         status: "failure",
-    //         data: {
-    //             statusCode: 400,
-    //             message: "Please provide an aliase"
-    //         }
-    //     })
-    // }
-    // if (!mongoose.isValidObjectId(userId)) {
-    //     return res.status(400).json({
-    //         status: "failure",
-    //         data: {
-    //             statusCode: 400,
-    //             message: "Please provide valid user id"
-    //         }
-    //     })
-    // }
-    // if (aliase.length < 8 || aliase.length > 13) {
-    //     return res.status(400).json({
-    //         status: "failure",
-    //         data: {
-    //             statusCode: 400,
-    //             message: "Please provide aliase within 8 to 13 characters"
-    //         }
-    //     })
-    // }
     try {
         const userFound = await User.findOne({ _id: userId })
         if (!userFound) {
