@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { IoIosLink } from "react-icons/io";
 import { FaCopy } from "react-icons/fa6";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import validurl from "valid-url"
 
@@ -14,17 +14,7 @@ const Home = () => {
     const [shortURL, setShortURL] = useState("")
     const handleClick = async () => {
         if (!validurl.isUri(data.longURL)) {
-            return toast.error("Please provide a valid URL", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Bounce,
-            })
+            return toast.error("Please provide a valid URL")
         }
         try {
             const response = await fetch("http://localhost:8080/api/v1/url-create", {
@@ -43,29 +33,9 @@ const Home = () => {
             if (value.data.statusCode === 201) {
                 setGotURL(true)
                 setShortURL(value.data.value)
-                toast.success('Created a short URL', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
-                });
+                toast.success('Created a short URL');
             } else if (value.data.statusCode === 400) {
-                toast.error(`${value.data.message}`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
-                });
+                toast.error(`${value.data.message}`);
             }
         } catch (error) {
             console.log(error.message)
@@ -74,19 +44,6 @@ const Home = () => {
 
     return (
         <div className='flex flex-col w-full justify-center items-center'>
-            <ToastContainer
-                position="bottom-left"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-                transition={Bounce}
-            />
             <div className="navbar bg-neutral text-neutral-content w-full h-fit">
                 <button className="btn btn-ghost text-xl">URL Shortner</button>
             </div>

@@ -1,4 +1,12 @@
 const useLocalStorage = () => {
+
+    const setItem = (key, value) => {
+        if (!key || !value) {
+            return
+        }
+        localStorage.setItem(key, JSON.stringify(value))
+    }
+
     const getItem = (itemName) => {
         if (!itemName) {
             return
@@ -24,7 +32,7 @@ const useLocalStorage = () => {
     const removeAll = () => {
         localStorage.clear()
     }
-    return { getItem, deleteItem, removeAll }
+    return { setItem, getItem, deleteItem, removeAll }
 }
 
 export default useLocalStorage

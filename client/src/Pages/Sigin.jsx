@@ -3,7 +3,10 @@ import sigin from "../assets/sigin.svg"
 import { useUserContext } from '../context/UserContext'
 
 const Sigin = () => {
-    const [userData, setUserData] = useState({})
+    const [userData, setUserData] = useState({
+        email: "",
+        password: ""
+    })
     const { login } = useUserContext()
 
     return (
