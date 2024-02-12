@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import sigin from "../assets/sigin.svg"
+import { useUserContext } from '../context/UserContext'
 
 const Sigin = () => {
+    const [userData, setUserData] = useState({})
+    const { login } = useUserContext()
+
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -12,16 +16,33 @@ const Sigin = () => {
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="email" placeholder="email" className="input input-bordered" required />
+                            <input
+                                type="email"
+                                placeholder="email"
+                                className="input input-bordered"
+                                required
+                                value={userData.email}
+                                onChange={(e) => setUserData(pre => ({ ...pre, email: e.target.value }))}
+                            />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="password" placeholder="password" className="input input-bordered" required />
+                            <input
+                                type="password"
+                                placeholder="password"
+                                className="input input-bordered"
+                                required
+                                value={userData.password}
+                                onChange={(e) => setUserData(pre => ({ ...pre, password: e.target.value }))}
+                            />
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Sign in</button>
+                            <button className="btn btn-primary" onClick={(e) => {
+                                e.preventDefault();
+                                login(userData)
+                            }}>Sign in</button>
                         </div>
                         <div className='flex gap-2 mx-auto'>
                             <span>Don't have an account?</span>

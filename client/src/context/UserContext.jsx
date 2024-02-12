@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import useLocalStorage from '../hooks/useLocalStorage'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const UserContext = createContext({
     user: null,
@@ -13,6 +14,8 @@ const useUserContext = () => {
 }
 
 const UserContextProvider = ({ children }) => {
+
+    const navigate = useNavigate()
     const [user, setUser] = useState(null)
     const { getItem } = useLocalStorage()
 
@@ -44,7 +47,11 @@ const UserContextProvider = ({ children }) => {
                 body: JSON.stringify(userData)
             })
             const data = await response.json()
-            setUser(data)
+            if (data.data.statusCode === 200) {
+                setUser(data)
+                navigate("/")
+            }
+            console.log(data)
         } catch (error) {
             console.log(error.message)
         }
