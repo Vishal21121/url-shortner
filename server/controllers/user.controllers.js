@@ -15,11 +15,12 @@ export const createUser = async (req, res) => {
             })
         }
         const user = await User.create({ username, email, password })
+        const userCreated = await User.findOne({ _id: user._id }).select("-password")
         return res.status(201).json({
             status: "success",
             data: {
                 statusCode: 201,
-                data: user
+                data: userCreated
             }
         })
     } catch (error) {
@@ -46,7 +47,6 @@ export const loginUser = async (req, res) => {
                 }
             })
         }
-        console.log(user);
         const isPasswordCorrect = await user.isPasswordCorrect(password)
         if (!isPasswordCorrect) {
             return res.status(401).json({
@@ -57,11 +57,12 @@ export const loginUser = async (req, res) => {
                 }
             })
         }
+        const loggedInUser = await User.findOne({ _id: user._id }).select("-password")
         return res.status(200).json({
             status: "success",
             data: {
                 statusCode: 200,
-                data: user
+                data: loggedInUser
             }
 
         })
