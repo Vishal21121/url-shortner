@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import validurl from "valid-url"
 import { useUserContext } from "../context/UserContext"
+import UrlCard from '../components/UrlCard';
 
 const Home = () => {
     const { user } = useUserContext()
@@ -59,13 +60,13 @@ const Home = () => {
     }
 
     return (
-        <div className='flex flex-col w-full justify-center items-center'>
-            <div className="navbar bg-neutral text-neutral-content w-full h-fit">
+        <div className='flex flex-col w-full items-center h-screen'>
+            <div className="navbar bg-neutral text-neutral-content w-full">
                 <button className="btn btn-ghost text-xl">URL Shortner</button>
             </div>
-            <div className='flex gap-4 w-full'>
-                <div className='w-1/2 mt-8 flex justify-center'>
-                    <div className='ring-2 ring-gray-600 mt-8 ml-8 px-4 gap-4 w-3/4 flex flex-col rounded pb-4 pt-2'>
+            <div className='flex gap-4 w-full h-[80%]'>
+                <div className='w-1/2 mt-8 flex justify-center max-h-screen h-[50%]'>
+                    <div className='ring-2 ring-gray-600 mt-8 ml-8 px-4 gap-4 w-3/4 flex flex-col rounded pb-4 pt-2 h-full'>
                         <div className='flex gap-4 p-2 items-center'>
                             <IoIosLink className='text-white text-4xl' />
                             <p className='text-white text-lg font-semibold'>Shorten a long URL</p>
@@ -99,9 +100,14 @@ const Home = () => {
                         }
                     </div>
                 </div>
-                <div className='w-1/2 p-4'>
+                <div className='w-1/2 p-4 h-full flex flex-col gap-4'>
                     <p className='text-2xl text-center font-semibold'>Saved Urls</p>
-                    <div className='flex flex-col gap-4'>
+                    <div className='flex flex-col gap-4 p-4 overflow-auto h-full'>
+                        <UrlCard />
+                        <UrlCard />
+                        <UrlCard />
+                        <UrlCard />
+                        <UrlCard />
                     </div>
                 </div>
             </div>
