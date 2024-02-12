@@ -123,3 +123,43 @@ export const findUrlClickedCount = async (req, res) => {
         })
     }
 }
+
+export const findUserUrls = async (req, res) => {
+    const { userId } = req.params
+    if (!userId) {
+        return res.status(400).json({
+            status: "failure",
+            data: {
+                statusCode: 400,
+                message: "Please provide a userId"
+            }
+        })
+    }
+    try {
+        const foundUrls = await Url.find({ userId: userId })
+        if (!foundUrls) {
+            return res.status(404).json({
+                status: "failure",
+                data: {
+                    statusCode: 404,
+                    message: "No urls found for this user"
+                }
+            })
+        }
+        return res.status(200).json({
+            status: "success",
+            data: {
+                statusCode: 200,
+                value: foundUrls
+            }
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: "failure",
+            data: {
+                statusCode: 500,
+                message: error.message || "Internal server error"
+            }
+        })
+    }
+}
