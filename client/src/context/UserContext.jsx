@@ -18,7 +18,7 @@ const UserContextProvider = ({ children }) => {
 
     const navigate = useNavigate()
     const [user, setUser] = useState(null)
-    const { getItem, setItem } = useLocalStorage()
+    const { getItem, setItem, deleteItem } = useLocalStorage()
 
     const registerUser = async (userData) => {
         try {
@@ -91,13 +91,18 @@ const UserContextProvider = ({ children }) => {
         }
     }
 
+    const logOut = async () => {
+        deleteItem("user")
+        setUser(null)
+    }
+
     useEffect(() => {
         const data = getItem("user")
         setUser(data)
     }, [])
 
     return (
-        <UserContext.Provider value={{ registerUser, login, user }}>
+        <UserContext.Provider value={{ registerUser, login, user, logOut }}>
             {children}
         </UserContext.Provider>
     )

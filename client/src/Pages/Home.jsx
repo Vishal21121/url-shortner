@@ -6,9 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import validurl from "valid-url"
 import { useUserContext } from "../context/UserContext"
 import UrlCard from '../components/UrlCard';
+import { FiLogOut } from "react-icons/fi";
 
 const Home = () => {
-    const { user } = useUserContext()
+    const { user, logOut } = useUserContext()
     const [data, setData] = useState({
         longURL: "",
         aliase: ""
@@ -80,8 +81,9 @@ const Home = () => {
 
     return (
         <div className='flex flex-col w-full items-center h-screen'>
-            <div className="navbar bg-neutral text-neutral-content w-full">
+            <div className="navbar bg-neutral text-neutral-content w-full flex justify-between">
                 <button className="btn btn-ghost text-xl">URL Shortner</button>
+                <button className="btn btn-ghost text-xl" onClick={logOut} ><FiLogOut className='mt-1' />LogOut</button>
             </div>
             <div className='flex gap-4 w-full h-[80%]'>
                 <div className='w-1/2 mt-8 flex justify-center max-h-screen h-fit'>
