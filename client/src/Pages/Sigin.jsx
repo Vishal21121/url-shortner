@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import sigin from "../assets/sigin.svg"
 import { useUserContext } from '../context/UserContext'
+import { Link } from 'react-router-dom'
 
 const Sigin = () => {
     const [userData, setUserData] = useState({
@@ -49,7 +50,7 @@ const Sigin = () => {
                         </div>
                         <div className='flex gap-2 mx-auto'>
                             <span>Don't have an account?</span>
-                            <a href="" className='hover:text-blue-500'>Sign Up</a>
+                            <Link to='/signup' className='hover:text-blue-500'>Sign Up</Link>
                         </div>
                     </form>
                 </div>
