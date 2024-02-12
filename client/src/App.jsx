@@ -3,6 +3,8 @@ import Home from "./Pages/Home"
 import Sigin from "./Pages/Sigin"
 import Signup from "./Pages/Signup"
 import NotFound from "./Pages/NotFound"
+import PrivateRoute from "./components/PrivateRoute"
+import PublicRoute from "./components/PublicRoute"
 
 function App() {
 
