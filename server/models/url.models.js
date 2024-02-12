@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const UrlSchema = mongoose.Schema({
-    shortUrl: {
+    aliase: {
         type: String,
         unique: true,
         required: true
@@ -16,6 +16,10 @@ const UrlSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+    },
+    shortUrl: {
+        type: String,
+        required: true
     }
 }, { timestamps: true, })
 

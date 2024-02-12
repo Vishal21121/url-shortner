@@ -1,36 +1,57 @@
+import mongoose from "mongoose";
 import Url from "../models/url.models.js";
+import { User } from "../models/user.models.js"
 
 export const createNewShortUrl = async (req, res) => {
-    const { longUrl, aliase } = req.body
-    if (!longUrl) {
-        return res.status(400).json({
-            status: "failure",
-            data: {
-                statusCode: 400,
-                message: "Please provide a url"
-            }
-        })
-    }
-    if (!aliase) {
-        return res.status(400).json({
-            status: "failure",
-            data: {
-                statusCode: 400,
-                message: "Please provide an aliase"
-            }
-        })
-    }
-    if (aliase.length < 8 || aliase.length > 13) {
-        return res.status(400).json({
-            status: "failure",
-            data: {
-                statusCode: 400,
-                message: "Please provide aliase within 8 to 13 characters"
-            }
-        })
-    }
+    const { longUrl, aliase, userId } = req.body
+    // if (!longUrl) {
+    //     return res.status(400).json({
+    //         status: "failure",
+    //         data: {
+    //             statusCode: 400,
+    //             message: "Please provide a url"
+    //         }
+    //     })
+    // }
+    // if (!aliase) {
+    //     return res.status(400).json({
+    //         status: "failure",
+    //         data: {
+    //             statusCode: 400,
+    //             message: "Please provide an aliase"
+    //         }
+    //     })
+    // }
+    // if (!mongoose.isValidObjectId(userId)) {
+    //     return res.status(400).json({
+    //         status: "failure",
+    //         data: {
+    //             statusCode: 400,
+    //             message: "Please provide valid user id"
+    //         }
+    //     })
+    // }
+    // if (aliase.length < 8 || aliase.length > 13) {
+    //     return res.status(400).json({
+    //         status: "failure",
+    //         data: {
+    //             statusCode: 400,
+    //             message: "Please provide aliase within 8 to 13 characters"
+    //         }
+    //     })
+    // }
     try {
-        const foundAliase = await Url.findOne({ shortUrl: aliase })
+        const userFound = await User.findOne({ _id: userId })
+        if (!userFound) {
+            return res.status(400).json({
+                status: "failure",
+                data: {
+                    statusCode: 400,
+                    message: "No user exists with this userId"
+                }
+            })
+        }
+        const foundAliase = await Url.findOne({ aliase: aliase })
         if (foundAliase) {
             return res.status(400).json({
                 status: "failure",
@@ -40,12 +61,12 @@ export const createNewShortUrl = async (req, res) => {
                 }
             })
         }
-        const createdUrl = await Url.create({ shortUrl: aliase, redirectUrl: longUrl, clicked: 0 })
+        const createdUrl = await Url.create({ aliase: aliase, redirectUrl: longUrl, clicked: 0, userId: userId, shortUrl: `http://localhost:8080/api/v1/${aliase}` })
         return res.status(201).json({
             status: "success",
             data: {
                 statusCode: 201,
-                value: `http://localhost:8080/api/v1/${createdUrl.shortUrl}`
+                value: createdUrl
             }
         })
     } catch (error) {
@@ -72,7 +93,7 @@ export const findLongUrl = async (req, res) => {
         })
     }
     try {
-        const foundUrl = await Url.findOne({ shortUrl: id })
+        const foundUrl = await Url.findOne({ aliase: id })
         if (!foundUrl) {
             return res.status(404).json({
                 status: "failure",
@@ -83,7 +104,7 @@ export const findLongUrl = async (req, res) => {
             })
         }
         await Url.findOneAndUpdate(
-            { shortUrl: id },
+            { aliase: id },
             { $inc: { clicked: 1 } },
             { new: true } // This option returns the modified document
         );
@@ -111,7 +132,7 @@ export const findUrlClickedCount = async (req, res) => {
         })
     }
     try {
-        const foundCount = await Url.findOne({ shortUrl: id })
+        const foundCount = await Url.findOne({ aliase: id })
         if (!foundCount) {
             return res.status(404).json({
                 status: "failure",
