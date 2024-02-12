@@ -2,11 +2,10 @@ import React from 'react'
 import { useUserContext } from "../context/UserContext"
 import { Navigate } from 'react-router-dom'
 
-const PrivateRoute = () => {
+const PrivateRoute = ({ children }) => {
   const { user } = useUserContext()
-  return (
-    !user && <Navigate to="/signin" />
-  )
+  if (!user) return <Navigate to="/signin" replace />
+  return children
 }
 
 export default PrivateRoute
