@@ -1,6 +1,6 @@
 # URL Shortener
 
-This is a simple URL shortening service built using Node.js and MongoDB. The project allows you to create shortened URLs that redirect to the original URL when accessed.
+This is a simple URL shortening service built using React.js, Tailwind css, Node.js, Express.js and MongoDB. The project allows you to create shortened URLs that redirect to the original URL when accessed.
 
 ## Features
 
@@ -30,22 +30,36 @@ git clone https://github.com/Vishal21121/url-shortner.git
 cd url-shortner
 ```
 
-Install the dependencies:
+### Install the dependencies:
 
+- Client depenedencies:
+
+```bash
+cd client
+```
+```bash
+npm install
+```
+- Server depenedencies:
+
+```bash
+cd server
+```
 ```bash
 npm install
 ```
 
-Start the server:
+#### Start the server:
+
+- Client side
+
+```bash
+npm run dev
+```
+
+- Server side
 
 ```bash
 npm start
 ```
-
 Now, the server should be running at `http://localhost:8080`.
-
-## Built With
-
-- [Node.js](https://nodejs.org/) - JavaScript runtime built on Chrome's V8 JavaScript engine
-- [Express](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js
-- [MongoDB](https://www.mongodb.com/) - Source-available cross-platform document-oriented database program
