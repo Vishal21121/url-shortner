@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import Url from "../models/url.models.js";
 import { User } from "../models/user.models.js"
+import redis from "ioredis"
+
+const client = new redis()
 
 export const createNewShortUrl = async (req, res) => {
     const { longUrl, aliase, userId } = req.body
@@ -136,6 +139,22 @@ export const findUserUrls = async (req, res) => {
         })
     }
     try {
+        const userKey = `user:${userId}:urls`
+        let length = await client.llen(userKey)
+        const urlsFromCache = await client.lrange(userKey, 0, length);
+        if (urlsFromCache.length) {
+            let parsedList = []
+            urlsFromCache.forEach((el) => {
+                parsedList.push(JSON.parse(el))
+            })
+            return res.status(200).json({
+                status: "success",
+                data: {
+                    statusCode: 200,
+                    value: parsedList
+                }
+            })
+        }
         const foundUrls = await Url.find({ userId: userId })
         if (!foundUrls) {
             return res.status(404).json({
@@ -146,6 +165,9 @@ export const findUserUrls = async (req, res) => {
                 }
             })
         }
+        foundUrls.forEach(async (el) => {
+            await client.rpush(userKey, JSON.stringify(el))
+        })
         return res.status(200).json({
             status: "success",
             data: {
