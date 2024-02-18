@@ -75,7 +75,16 @@ const Home = () => {
         }
     }
 
+    const clickHandler = (id) => {
+        let urlIndex = urls.findIndex((el) => el._id == id)
+        let tempUrlArray = [...urls]
+        tempUrlArray[urlIndex].clicked = tempUrlArray[urlIndex].clicked + 1
+        console.log(tempUrlArray)
+        setUrls(tempUrlArray)
+    }
+
     useEffect(() => {
+        console.log("got Value")
         fetchUrls()
     }, [])
 
@@ -127,7 +136,7 @@ const Home = () => {
                         {
                             urls.length > 0 ? (
                                 urls.map((el) => (
-                                    <UrlCard key={el._id} el={el} />
+                                    <UrlCard key={el._id} el={el} clickHandler={clickHandler} />
                                 ))
                             ) : <p>Nothing to display</p>
                         }

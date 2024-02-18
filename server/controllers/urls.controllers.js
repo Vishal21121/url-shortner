@@ -29,6 +29,7 @@ export const createNewShortUrl = async (req, res) => {
             })
         }
         const createdUrl = await Url.create({ aliase: aliase, redirectUrl: longUrl, clicked: 0, userId: userId, shortUrl: `http://localhost:8080/api/v1/${aliase}` })
+        await client.rpush(`user:${userId}:urls`, JSON.stringify(createdUrl))
         return res.status(201).json({
             status: "success",
             data: {
@@ -70,11 +71,17 @@ export const findLongUrl = async (req, res) => {
                 }
             })
         }
-        await Url.findOneAndUpdate(
+        const updatedDoc = await Url.findOneAndUpdate(
             { aliase: id },
             { $inc: { clicked: 1 } },
             { new: true } // This option returns the modified document
         );
+        let listLength = await client.llen(`user:${foundUrl.userId}:urls`)
+        let cacheLists = await client.lrange(`user:${foundUrl.userId}:urls`, 0, listLength)
+        // console.log(typeof JSON.parse(cacheLists[0])._id, typeof id)
+        // console.log(JSON.parse(cacheLists[0])._id, foundUrl._id)
+        let index = cacheLists.findIndex(el => JSON.parse(el)._id == foundUrl._id)
+        await client.lset(`user:${foundUrl.userId}:urls`, index, JSON.stringify(updatedDoc))
         res.redirect(foundUrl.redirectUrl)
     } catch (error) {
         return res.status(500).json({
@@ -143,6 +150,7 @@ export const findUserUrls = async (req, res) => {
         let length = await client.llen(userKey)
         const urlsFromCache = await client.lrange(userKey, 0, length);
         if (urlsFromCache.length) {
+            console.log("inside cache");
             let parsedList = []
             urlsFromCache.forEach((el) => {
                 parsedList.push(JSON.parse(el))
