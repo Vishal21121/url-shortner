@@ -1,6 +1,6 @@
 # URL Shortener
 
-This is a simple URL shortening service built using React.js, Tailwind css, Node.js, Express.js and MongoDB. The project allows you to create shortened URLs that redirect to the original URL when accessed.
+This is a simple URL shortening service built using React.js, Tailwind css, Node.js, Express.js, Redis and MongoDB. The project allows you to create shortened URLs that redirect to the original URL when accessed.
 
 ## Features
 
