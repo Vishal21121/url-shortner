@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Make sure you have Node.js and MongoDB installed on your machine.
+Make sure you have Node.js, Redis as docker image and MongoDB installed on your machine.
 
 ```bash
 node -v
