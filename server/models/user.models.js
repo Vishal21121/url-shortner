@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
+import { AvailableSocialLogins, UserLoginType } from "../constants.js";
 
 const UserSchema = mongoose.Schema({
     username: {
@@ -15,7 +16,12 @@ const UserSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    loginType: {
+        type: String,
+        enum: AvailableSocialLogins,
+        default: UserLoginType.EMAIL_PASSWORD,
+    },
 }, { timestamps: true, })
 
 
