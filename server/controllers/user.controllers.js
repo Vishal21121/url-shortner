@@ -24,45 +24,34 @@ export const createUser = asyncHandler(async (req, res) => {
     ))
 })
 
-export const loginUser = async (req, res) => {
+export const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
-    try {
-        const user = await User.findOne({ email: email })
-        if (!user) {
-            return res.status(401).json({
-                status: "failure",
-                data: {
-                    statusCode: 401,
-                    message: "Enter correct credentials"
-                }
-            })
-        }
-        const isPasswordCorrect = await user.isPasswordCorrect(password)
-        if (!isPasswordCorrect) {
-            return res.status(401).json({
-                status: "failure",
-                data: {
-                    statusCode: 401,
-                    message: "Enter correct credentials"
-                }
-            })
-        }
-        const loggedInUser = await User.findOne({ _id: user._id }).select("-password")
-        return res.status(200).json({
-            status: "success",
-            data: {
-                statusCode: 200,
-                data: loggedInUser
-            }
-
-        })
-    } catch (error) {
-        return res.status(500).json({
-            status: "failure",
-            data: {
-                statusCode: 500,
-                message: error.message || "Internal server error"
-            }
-        })
+    const user = await User.findOne({ email: email })
+    if (!user) {
+        return res.status(401).json(new ApiResponse(
+            401,
+            {
+                message: "Please enter correct credentials"
+            },
+            "Please enter correct credentials"
+        ))
     }
-}
+    const isPasswordCorrect = await user.isPasswordCorrect(password)
+    if (!isPasswordCorrect) {
+        return res.status(401).json(new ApiResponse(
+            401,
+            {
+                message: "Please enter correct credentials"
+            },
+            "Please enter correct credentials"
+        ))
+    }
+    const loggedInUser = await User.findOne({ _id: user._id }).select("-password")
+    return res.status(200).json(new ApiResponse(
+        200,
+        {
+            data: loggedInUser
+        },
+        ""
+    ))
+})
