@@ -5,6 +5,7 @@ import connectToDB from "./db/dbConfig.js"
 import cors from "cors"
 import session from "express-session"
 import dotenv from "dotenv"
+import { errorHandler } from "./middleware/error.middleware.js"
 
 dotenv.config()
 
@@ -23,6 +24,8 @@ app.use(session({
 }))
 app.use("/api/v1", urlRouter)
 app.use("/api/v1/users", userRouter)
+
+app.use(errorHandler)
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`);

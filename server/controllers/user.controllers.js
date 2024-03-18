@@ -1,38 +1,28 @@
 import { User } from "../models/user.models.js"
+import { ApiError } from "../utils/ApiError.js"
+import { ApiResponse } from "../utils/ApiResponse.js"
+import { asyncHandler } from "../utils/asyncHandler.js"
 
 
-export const createUser = async (req, res) => {
+export const createUser = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body
-    try {
-        const userExists = await User.findOne({ $or: [{ email: email }, { username: username }] })
-        if (userExists) {
-            return res.status(409).json({
-                status: "failure",
-                data: {
-                    statusCode: 409,
-                    message: "User with this email or username already exists"
-                }
-            })
-        }
-        const user = await User.create({ username, email, password })
-        const userCreated = await User.findOne({ _id: user._id }).select("-password")
-        return res.status(201).json({
-            status: "success",
-            data: {
-                statusCode: 201,
-                data: userCreated
-            }
-        })
-    } catch (error) {
-        return res.status(500).json({
-            status: "failure",
-            data: {
-                statusCode: 500,
-                message: error.message || "Internal server error"
-            }
-        })
+    const userExists = await User.findOne({ $or: [{ email: email }, { username: username }] })
+    if (userExists) {
+        throw new ApiError(409, "User with this email or username already exists", [])
     }
-}
+    const user = await User.create({ username, email, password })
+    const userCreated = await User.findOne({ _id: user._id }).select("-password")
+    if (!userCreated) {
+        throw new ApiError(500, "Something went wrong while registering the user", [])
+    }
+    return res.status(201).json(new ApiResponse(
+        201,
+        {
+            data: userCreated
+        },
+        "User created successfully"
+    ))
+})
 
 export const loginUser = async (req, res) => {
     const { email, password } = req.body
