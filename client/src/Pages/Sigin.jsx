@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import sigin from "../assets/sigin.svg"
 import { useUserContext } from '../context/UserContext'
 import { Link } from 'react-router-dom'
+import { FaGoogle } from "react-icons/fa";
 
 const Sigin = () => {
     const [userData, setUserData] = useState({
@@ -9,6 +10,14 @@ const Sigin = () => {
         password: ""
     })
     const { login } = useUserContext()
+
+    const googleSignup = async () => {
+        try {
+            window.open("http://localhost:8080/api/v1/users/google", "_self")
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -42,12 +51,26 @@ const Sigin = () => {
                                 onChange={(e) => setUserData(pre => ({ ...pre, password: e.target.value }))}
                             />
                         </div>
-                        <div className="form-control mt-6">
-                            <button className="btn btn-primary" onClick={(e) => {
-                                e.preventDefault();
-                                login(userData)
-                            }}>Sign in</button>
+                        <div className="flex flex-col w-full border-opacity-50">
+                            <div className="form-control mt-6">
+                                <button className="btn btn-primary" onClick={(e) => {
+                                    e.preventDefault();
+                                    login(userData)
+                                }}>Sign in</button>
+                            </div>
+                            <div className="divider">OR</div>
+                            <div className="form-control">
+                                <button
+                                    className="btn"
+                                    onClick={async (e) => {
+                                        e.preventDefault();
+                                        googleSignup()
+                                    }}
+                                > <FaGoogle className='text-xl' />Continue with Google</button>
+                            </div>
                         </div>
+
+
                         <div className='flex gap-2 mx-auto'>
                             <span>Don't have an account?</span>
                             <Link to='/signup' className='hover:text-blue-500'>Sign Up</Link>

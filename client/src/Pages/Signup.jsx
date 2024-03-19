@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import signup from "../assets/signup.svg"
 import { useUserContext } from "../context/UserContext"
 import { Link } from 'react-router-dom'
+import { FaGoogle } from "react-icons/fa";
 
 const Signup = () => {
     const { registerUser } = useUserContext()
@@ -64,24 +65,29 @@ const Signup = () => {
                                 onChange={(e) => setUserData(pre => ({ ...pre, password: e.target.value }))}
                             />
                         </div>
-                        <div className="form-control mt-6">
-                            <button
-                                className="btn btn-primary"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    registerUser(userData)
-                                }}
-                            >Sign up</button>
+                        <div className="flex flex-col w-full border-opacity-50">
+                            <div className="form-control mt-6">
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        registerUser(userData)
+                                    }}
+                                >Sign up</button>
+                            </div>
+                            <div className="divider">OR</div>
+                            <div className="form-control">
+                                <button
+                                    className="btn"
+                                    onClick={async (e) => {
+                                        e.preventDefault();
+                                        googleSignup()
+                                    }}
+                                > <FaGoogle className='text-xl' />Continue with Google</button>
+                            </div>
                         </div>
-                        <div className="form-control mt-6">
-                            <button
-                                className="btn btn-error"
-                                onClick={async (e) => {
-                                    e.preventDefault();
-                                    googleSignup()
-                                }}
-                            >Signup with Google</button>
-                        </div>
+
+
                         <div className='flex gap-2 mx-auto'>
                             <span>Already have an account?</span>
                             <Link to='/signin' className='hover:text-blue-500'>Sign in</Link>
