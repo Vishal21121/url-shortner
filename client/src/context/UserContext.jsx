@@ -67,15 +67,15 @@ const UserContextProvider = ({ children }) => {
                 body: JSON.stringify(userData)
             })
             const data = await response.json()
-            if (data.data.statusCode === 200) {
+            if (data.statusCode === 200) {
                 toast.dismiss()
                 toast.success("User logged in successfully")
                 setUser(data)
                 setItem("user", data)
                 navigate("/")
-            } else if (data.data.statusCode === 401) {
+            } else if (data.statusCode === 401) {
                 toast.error(data.data.message)
-            } else if (data.data.statusCode === 422) {
+            } else if (data.statusCode === 422) {
                 let firsElement = data.data.value[0]
                 let message = ""
                 if ("email" in firsElement) {
@@ -122,9 +122,12 @@ const UserContextProvider = ({ children }) => {
                 setItem("user", data)
                 navigate("/")
             }
+            else if (data.statusCode === 401) {
+                const data = getItem("user")
+                setUser(data)
+                console.log("user from local", data)
+            }
         } catch (error) {
-            const data = getItem("user")
-            setUser(data)
             console.log(error)
         }
     }

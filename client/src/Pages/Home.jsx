@@ -32,7 +32,7 @@ const Home = () => {
                 body: JSON.stringify({
                     longUrl: data.longURL,
                     aliase: data.aliase,
-                    userId: user.data.data._id
+                    userId: user.data._id
                 })
             })
             const value = await response.json()
@@ -62,8 +62,10 @@ const Home = () => {
     }
 
     const fetchUrls = async () => {
+        // console.log("user", user.data.user._id)
+        console.log("user", user)
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/url/${user.data.data._id}`)
+            const response = await fetch(`http://localhost:8080/api/v1/url/${user.data._id}`)
             const data = await response.json()
             console.log(data)
             if (data.data.statusCode === 200) {

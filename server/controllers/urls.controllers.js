@@ -150,7 +150,6 @@ export const findUserUrls = async (req, res) => {
         let length = await client.llen(userKey)
         const urlsFromCache = await client.lrange(userKey, 0, length);
         if (urlsFromCache.length) {
-            console.log("inside cache");
             let parsedList = []
             urlsFromCache.forEach((el) => {
                 parsedList.push(JSON.parse(el))

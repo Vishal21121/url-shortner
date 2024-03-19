@@ -47,10 +47,13 @@ export const loginUser = asyncHandler(async (req, res) => {
         ))
     }
     const loggedInUser = await User.findOne({ _id: user._id }).select("-password")
+    console.log(loggedInUser)
     return res.status(200).json(new ApiResponse(
         200,
         {
-            data: loggedInUser
+            _id: loggedInUser._id,
+            email: loggedInUser.email,
+            username: loggedInUser.username
         },
         ""
     ))
@@ -81,7 +84,7 @@ export const handleSocialLogin = asyncHandler(async (req, res) => {
 
 export const handleSuccessSocialLogin = asyncHandler(async (req, res) => {
     if (req.cookies?.user) {
-        return res.status(200).json(new ApiResponse(200, { user: req.cookies?.user }, ""))
+        return res.status(200).json(new ApiResponse(200, { ...req.cookies?.user }, ""))
     }
     throw new ApiError(401, "Login info not found", [])
 })
