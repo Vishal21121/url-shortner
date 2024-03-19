@@ -11,6 +11,14 @@ const Signup = () => {
         password: ""
     })
 
+    const googleSignup = async () => {
+        try {
+            window.open("http://localhost:8080/api/v1/users/google", "_self")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex gap-8 lg:flex-row-reverse">
@@ -64,6 +72,15 @@ const Signup = () => {
                                     registerUser(userData)
                                 }}
                             >Sign up</button>
+                        </div>
+                        <div className="form-control mt-6">
+                            <button
+                                className="btn btn-error"
+                                onClick={async (e) => {
+                                    e.preventDefault();
+                                    googleSignup()
+                                }}
+                            >Signup with Google</button>
                         </div>
                         <div className='flex gap-2 mx-auto'>
                             <span>Already have an account?</span>

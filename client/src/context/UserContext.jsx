@@ -92,13 +92,45 @@ const UserContextProvider = ({ children }) => {
     }
 
     const logOut = async () => {
-        deleteItem("user")
-        setUser(null)
+        try {
+            const response = await fetch("http://localhost:8080/api/v1/users/logout", {
+                credentials: "include"
+            })
+            const data = await response.json()
+            if (data.statusCode === 200) {
+                deleteItem("user")
+                setUser(null)
+                toast.success("log out successfully")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchUserDetails = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/v1/users/user-details", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Credentials": true
+                }
+            })
+            const data = await response.json()
+            if (data.statusCode === 200) {
+                setUser(data)
+                setItem("user", data)
+                navigate("/")
+            }
+        } catch (error) {
+            const data = getItem("user")
+            setUser(data)
+            console.log(error)
+        }
     }
 
     useEffect(() => {
-        const data = getItem("user")
-        setUser(data)
+        fetchUserDetails()
     }, [])
 
     return (

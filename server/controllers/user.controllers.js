@@ -55,3 +55,43 @@ export const loginUser = asyncHandler(async (req, res) => {
         ""
     ))
 })
+
+export const handleSocialLogin = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+        throw new ApiError(404, "User does not exist");
+    }
+    const data = {
+        _id: req.user?._id,
+        username: req.user?.username,
+        email: req.user?.email,
+    }
+    const options = {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+    }
+    return res.
+        status(301)
+        .cookie("user", data, options)
+        .redirect(
+            `${process.env.CLIENT_SSO_REDIRECT_URL}`
+        );
+});
+
+export const handleSuccessSocialLogin = asyncHandler(async (req, res) => {
+    if (req.cookies?.user) {
+        return res.status(200).json(new ApiResponse(200, { user: req.cookies?.user }, ""))
+    }
+    throw new ApiError(401, "Login info not found", [])
+})
+
+export const logOutUser = async (req, res) => {
+    const options = {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+    }
+    res.clearCookie("user", options)
+    return res.status(200).json(new ApiResponse(200, {}, "User logout successfully"));
+}
