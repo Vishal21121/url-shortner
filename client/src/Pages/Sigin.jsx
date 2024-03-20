@@ -30,10 +30,10 @@ const Sigin = () => {
     }
 
     return (
-        <div className="hero min-h-screen bg-base-200">
+        <div className="hero sm:min-h-screen max-h-dvh bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <img src={sigin} alt="" />
-                <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100 mr-4">
+                <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100 sm:mr-4 border">
                     <form className="card-body">
                         <div className="form-control">
                             <label className="label">

@@ -30,8 +30,8 @@ const Signup = () => {
     }
 
     return (
-        <div className="hero min-h-screen bg-base-200">
-            <div className="hero-content flex gap-8 lg:flex-row-reverse">
+        <div className="hero sm:min-h-screen max-h-dvh bg-base-200">
+            <div className="hero-content flex-col gap-8 lg:flex-row-reverse">
                 <img src={signup} alt="" />
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <form className="card-body">
