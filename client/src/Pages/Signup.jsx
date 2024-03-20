@@ -3,6 +3,7 @@ import signup from "../assets/signup.svg"
 import { useUserContext } from "../context/UserContext"
 import { Link } from 'react-router-dom'
 import { FaGoogle } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 
 const Signup = () => {
     const { registerUser } = useUserContext()
@@ -15,6 +16,14 @@ const Signup = () => {
     const googleSignup = async () => {
         try {
             window.open("http://localhost:8080/api/v1/users/google", "_self")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const githubSignup = async () => {
+        try {
+            window.open("http://localhost:8080/api/v1/users/github", "_self")
         } catch (error) {
             console.log(error)
         }
@@ -76,15 +85,27 @@ const Signup = () => {
                                 >Sign up</button>
                             </div>
                             <div className="divider">OR</div>
-                            <div className="form-control">
-                                <button
-                                    className="btn"
-                                    onClick={async (e) => {
-                                        e.preventDefault();
-                                        googleSignup()
-                                    }}
-                                > <FaGoogle className='text-xl' />Continue with Google</button>
+                            <div className='flex flex-col gap-2'>
+                                <div className="form-control">
+                                    <button
+                                        className="btn"
+                                        onClick={async (e) => {
+                                            e.preventDefault();
+                                            googleSignup()
+                                        }}
+                                    > <FaGoogle className='text-xl' />Continue with Google</button>
+                                </div>
+                                <div className="form-control">
+                                    <button
+                                        className="btn"
+                                        onClick={async (e) => {
+                                            e.preventDefault();
+                                            githubSignup()
+                                        }}
+                                    > <FaGithub className='text-xl' />Continue with GitHub</button>
+                                </div>
                             </div>
+
                         </div>
 
 

@@ -11,6 +11,7 @@ const router = express.Router()
 router.route("/createAccount").post(userRegisterValidator(), validation, createUser)
 
 router.route("/login").post(userLoginValidator(), validation, loginUser)
+router.route("/logout").get(logOutUser)
 
 // passport routes
 
@@ -18,9 +19,16 @@ router.route("/login").post(userLoginValidator(), validation, loginUser)
 router.route("/google").get(passport.authenticate("google", { scope: ["profile", "email"] }), (req, res) => {
     res.send("redirecting to google.com...")
 })
-
 router.route("/google/callback").get(passport.authenticate("google"), handleSocialLogin)
-router.route("/user-details").get(handleSuccessSocialLogin)
-router.route("/logout").get(logOutUser)
 
+
+router.route("/github").get(passport.authenticate("github", { scope: ["user:email"] }), (req, res) => {
+    res.send("redirecting to github.com...")
+})
+router
+    .route("/github/callback")
+    .get(passport.authenticate("github"), handleSocialLogin);
+
+
+router.route("/user-details").get(handleSuccessSocialLogin)
 export default router
