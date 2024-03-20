@@ -21,6 +21,17 @@ const UserContextProvider = ({ children }) => {
     const { getItem, setItem, deleteItem } = useLocalStorage()
 
     const registerUser = async (userData) => {
+        if (userData.email === "") {
+            toast.error("Please provide email")
+            return
+        }
+        if (userData.password === "") {
+            toast.error("Please provide password")
+            return
+        }
+        if (userData.username === "") {
+            toast.error("Please provide username")
+        }
         try {
             const response = await fetch("http://localhost:8080/api/v1/users/createAccount", {
                 method: "POST",
@@ -31,16 +42,16 @@ const UserContextProvider = ({ children }) => {
                 body: JSON.stringify(userData)
             })
             const data = await response.json()
-            if (data.data.statusCode === 201) {
+            if (data.statusCode === 201) {
                 toast.dismiss()
                 toast.success("User account created successfully")
                 setUser(data)
                 setItem("user", data)
                 navigate("/")
-            } else if (data.data.statusCode === 409) {
-                toast.error(data.data.message)
-            } else if (data.data.statusCode === 422) {
-                let firsElement = data.data.value[0]
+            } else if (data.statusCode === 409) {
+                toast.error(data.message)
+            } else if (data.statusCode === 422) {
+                let firsElement = data.errors[0]
                 let message = ""
                 if ("username" in firsElement) {
                     message = firsElement["username"]
