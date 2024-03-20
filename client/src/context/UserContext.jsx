@@ -57,6 +57,15 @@ const UserContextProvider = ({ children }) => {
     }
 
     const login = async (userData) => {
+        console.log(userData)
+        if (userData.email === "") {
+            toast.error("Please provide email")
+            return
+        }
+        if (userData.password === "") {
+            toast.error("Please provide password")
+            return
+        }
         try {
             const response = await fetch("http://localhost:8080/api/v1/users/login", {
                 method: "POST",
@@ -76,7 +85,7 @@ const UserContextProvider = ({ children }) => {
             } else if (data.statusCode === 401) {
                 toast.error(data.data.message)
             } else if (data.statusCode === 422) {
-                let firsElement = data.data.value[0]
+                let firsElement = data.errors[0]
                 let message = ""
                 if ("email" in firsElement) {
                     message = firsElement["email"]
