@@ -28,7 +28,7 @@ export const createNewShortUrl = async (req, res) => {
                 }
             })
         }
-        const createdUrl = await Url.create({ aliase: aliase, redirectUrl: longUrl, clicked: 0, userId: userId, shortUrl: `http://localhost:8080/api/v1/${aliase}` })
+        const createdUrl = await Url.create({ aliase: aliase, redirectUrl: longUrl, clicked: 0, userId: userId, shortUrl: `localhost:8080/api/v1/${aliase}` })
         await client.rpush(`user:${userId}:urls`, JSON.stringify(createdUrl))
         return res.status(201).json({
             status: "success",

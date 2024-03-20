@@ -37,15 +37,16 @@ const Home = () => {
             })
             const value = await response.json()
             console.log(value)
-            if (value.data.statusCode === 201) {
+            if (value.statusCode === 201) {
                 setGotURL(true)
                 setShortURL(value.data.value.shortUrl)
                 setUrls((pre) => [...pre, value.data.value])
                 toast.success('Created a short URL');
-            } else if (value.data.statusCode === 400) {
+            } else if (value.statusCode === 400) {
                 toast.error(value.data.message);
-            } else if (value.data.statusCode == 422) {
-                let firstELement = value.data.value[0]
+            } else if (value.statusCode === 422) {
+                console.log("hellll")
+                let firstELement = value.errors[0]
                 let errorMessage = ""
                 if ("longUrl" in firstELement) {
                     errorMessage = firstELement["longUrl"]
@@ -54,6 +55,7 @@ const Home = () => {
                 } else if ("userId" in firstELement) {
                     errorMessage = firstELement["userId"]
                 }
+                console.log(errorMessage)
                 toast.error(errorMessage)
             }
         } catch (error) {
@@ -96,12 +98,12 @@ const Home = () => {
                 <button className="btn btn-ghost text-xl">URL Shortner</button>
                 <button className="btn btn-ghost text-xl" onClick={logOut} ><FiLogOut className='mt-1' />LogOut</button>
             </div>
-            <div className='flex gap-4 w-full h-[80%]'>
-                <div className='w-1/2 mt-8 flex justify-center max-h-screen h-fit'>
-                    <div className='ring-2 ring-gray-600 mt-8 ml-8 px-4 gap-4 w-3/4 flex flex-col rounded pb-4 pt-2 h-full'>
-                        <div className='flex gap-4 p-2 items-center'>
-                            <IoIosLink className='text-white text-4xl' />
-                            <p className='text-white text-lg font-semibold'>Shorten a long URL</p>
+            <div className='flex flex-col items-center sm:flex-row sm:items-baseline gap-4 w-full h-[80%] '>
+                <div className='w-3/4 sm:w-1/2 mt-8 flex flex-col justify-center max-h-screen h-fit'>
+                    <div className='ring-2 ring-gray-600 mt-8 ml-8 px-4 gap-4 w-3/4 flex flex-col items-center rounded pb-4 pt-2 h-full'>
+                        <div className='flex gap-1 items-center'>
+                            <IoIosLink className='text-white text-lg' />
+                            <p className='text-white text-base font-semibold'>Shorten a long URL</p>
                         </div>
                         <div className='flex flex-col gap-2 w-full'>
                             {
@@ -128,11 +130,11 @@ const Home = () => {
 
                         </div>
                         {
-                            !gotURL && <button className='btn btn-active text-lg' onClick={handleClick}>Shorten URL</button>
+                            !gotURL && <button className='btn btn-active text-sm sm:text-lg' onClick={handleClick}>Shorten URL</button>
                         }
                     </div>
                 </div>
-                <div className='w-1/2 p-4 h-full flex flex-col gap-4'>
+                <div className='w-full sm:w-1/2 mt-6 p-4 h-full flex flex-col gap-4'>
                     <p className='text-2xl text-center font-semibold'>Saved Urls</p>
                     <div className='flex flex-col gap-4 p-4 overflow-auto h-full items-center w-full'>
                         {

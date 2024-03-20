@@ -16,14 +16,14 @@ const UrlCard = ({ el, clickHandler }) => {
 
 
     return (
-        <div className='flex flex-col gap-2 ring ring-gray-500 rounded p-2 w-3/4'>
-            <Link className='text-gray-400 font-bold text-lg' to={el.shortUrl} target="_blank" onClick={() => clickHandler(el._id)}  >{el.shortUrl}</Link>
-            <p>{el.redirectUrl}</p>
+        <div className='flex flex-col gap-2 ring ring-gray-500 rounded p-2 w-full sm:w-3/4'>
+            <Link className='text-gray-400 font-bold text-base truncate' to={el.shortUrl} target="_blank" onClick={() => clickHandler(el._id)}  >{el.shortUrl}</Link>
+            <p className='text-xs sm:text-base'>{el.redirectUrl}</p>
             <div className='flex gap-2'>
-                <p>{el.clicked} clicks</p>
-                <p>{formattedDate}</p>
+                <p className='text-sm sm:text-base'>{el.clicked} clicks</p>
+                <p className='text-sm sm:text-base'>{formattedDate}</p>
             </div>
-            <button className='btn btn-active text-lg w-1/4' onClick={async () => await navigator.clipboard.writeText(el.shortUrl)}><FaCopy className='text-2xl' />Copy</button>
+            <button className='btn btn-active text-lg w-1/2 sm:w-1/4 flex flex-row' onClick={async () => await navigator.clipboard.writeText(el.shortUrl)}><FaCopy className='text-md' />Copy</button>
         </div>
     )
 }
