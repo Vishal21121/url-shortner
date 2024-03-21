@@ -2,52 +2,32 @@ import mongoose from "mongoose";
 import Url from "../models/url.models.js";
 import { User } from "../models/user.models.js"
 import redis from "ioredis"
+import { asyncHandler } from "../utils/asyncHandler.js"
+import { ApiResponse } from "../utils/ApiResponse.js"
+import { ApiError } from "../utils/ApiError.js"
 
 const client = new redis()
 
-export const createNewShortUrl = async (req, res) => {
+export const createNewShortUrl = asyncHandler(async (req, res) => {
     const { longUrl, aliase, userId } = req.body
-    try {
-        const userFound = await User.findOne({ _id: userId })
-        if (!userFound) {
-            return res.status(400).json({
-                status: "failure",
-                data: {
-                    statusCode: 400,
-                    message: "No user exists with this userId"
-                }
-            })
-        }
-        const foundAliase = await Url.findOne({ aliase: aliase })
-        if (foundAliase) {
-            return res.status(400).json({
-                status: "failure",
-                data: {
-                    statusCode: 400,
-                    message: "This aliase already exists"
-                }
-            })
-        }
-        const createdUrl = await Url.create({ aliase: aliase, redirectUrl: longUrl, clicked: 0, userId: userId, shortUrl: `localhost:8080/api/v1/${aliase}` })
-        await client.rpush(`user:${userId}:urls`, JSON.stringify(createdUrl))
-        return res.status(201).json({
-            status: "success",
-            data: {
-                statusCode: 201,
-                value: createdUrl
-            }
-        })
-    } catch (error) {
-        return res.status(500).json({
-            status: "failure",
-            data: {
-                statusCode: 500,
-                message: error.message || "Internal server error"
-            }
-        })
+    const userFound = await User.findOne({ _id: userId })
+    if (!userFound) {
+        throw new ApiError(400, "No user exists with this userId", [])
     }
-
-}
+    const foundAliase = await Url.findOne({ aliase: aliase })
+    if (foundAliase) {
+        throw new ApiError(400, "This aliase already exists", [])
+    }
+    const createdUrl = await Url.create({ aliase: aliase, redirectUrl: longUrl, clicked: 0, userId: userId, shortUrl: `localhost:8080/api/v1/${aliase}` })
+    await client.rpush(`user:${userId}:urls`, JSON.stringify(createdUrl))
+    return res.status(201).json(new ApiResponse(
+        201,
+        {
+            value: createdUrl
+        },
+        "Url created successfully"
+    ))
+})
 
 export const findLongUrl = async (req, res) => {
     const { id } = req.params
