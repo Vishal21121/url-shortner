@@ -8,6 +8,7 @@ import dotenv from "dotenv"
 import { errorHandler } from "./middleware/error.middleware.js"
 import passport from "passport"
 import cookieParser from "cookie-parser"
+import { findLongUrl } from "./controllers/urls.controllers.js"
 
 dotenv.config()
 
@@ -37,8 +38,9 @@ app.use(passport.session())
 app.use(passport.initialize())
 
 
-app.use("/api/v1", urlRouter)
+app.use("/api/v1/url", urlRouter)
 app.use("/api/v1/users", userRouter)
+app.use("/:id", findLongUrl)
 
 app.use(errorHandler)
 

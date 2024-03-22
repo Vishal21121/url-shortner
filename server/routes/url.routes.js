@@ -5,10 +5,9 @@ import { validation } from "../middleware/validate.middleware.js"
 
 const router = expres.Router()
 
-router.route("/url-create").post(urlCreateValidator(), validation, createNewShortUrl)
-router.route("/:id").get(findLongUrl)
-router.route("/url/analytics/:id").get(findUrlClickedCount)
-router.route("/url/:userId").get(findUserUrls)
+router.route("/create").post(urlCreateValidator(), validation, createNewShortUrl)
+router.route("/analytics/:id").get(findUrlClickedCount)
+router.route("/myurls/:userId").get(findUserUrls)
 
 
 

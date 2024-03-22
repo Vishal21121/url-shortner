@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { IoIosLink } from "react-icons/io";
 import { FaCopy } from "react-icons/fa6";
 import { toast } from 'react-toastify';
@@ -23,7 +23,7 @@ const Home = () => {
             return toast.error("Please provide a valid URL")
         }
         try {
-            const response = await fetch("http://localhost:8080/api/v1/url-create", {
+            const response = await fetch("http://localhost:8080/api/v1/url/create", {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -63,21 +63,20 @@ const Home = () => {
         }
     }
 
-    const fetchUrls = async () => {
-        // console.log("user", user.data.user._id)
+    const fetchUrls = useCallback(async () => {
         console.log("user", user)
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/url/${user.data._id}`)
+            const response = await fetch(`http://localhost:8080/api/v1/url/myurls/${user.data._id}`)
             const data = await response.json()
             console.log(data)
-            if (data.data.statusCode === 200) {
+            if (data.statusCode === 200) {
                 setUrls(data.data.value)
-                console.log("data GIt", data.data.value)
+                console.log("data GIt", data.value)
             }
         } catch (error) {
             console.log(error.message)
         }
-    }
+    }, [user])
 
     const clickHandler = (id) => {
         let urlIndex = urls.findIndex((el) => el._id == id)
@@ -90,7 +89,7 @@ const Home = () => {
     useEffect(() => {
         console.log("got Value")
         fetchUrls()
-    }, [])
+    }, [fetchUrls])
 
     return (
         <div className='flex flex-col w-full items-center h-screen'>
