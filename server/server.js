@@ -1,7 +1,7 @@
 import express from "express"
 import urlRouter from "./routes/url.routes.js"
 import userRouter from "./routes/user.routes.js"
-import connectToDB from "./db/dbConfig.js"
+import { connectToDB } from "./db/dbConfig.js"
 import cors from "cors"
 import session from "express-session"
 import dotenv from "dotenv"
