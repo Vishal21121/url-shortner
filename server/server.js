@@ -47,6 +47,7 @@ app.use("/api/v1/url", urlRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/:id", findLongUrl)
 
+// providing the static files on routes other than above routes
 app.get("*", (req, res) => {
     res.status(200).sendFile(path.resolve(__dirname, "./dist/index.html"))
 })
