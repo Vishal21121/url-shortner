@@ -94,7 +94,6 @@ export const findUrlClickedCount = async (req, res) => {
 export const findUserUrls = asyncHandler(async (req, res) => {
 
     const { userId } = req.params
-    console.log("user urls")
     if (!userId) {
         throw new ApiError(400, "Please provide a userId", [])
     }

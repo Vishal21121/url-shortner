@@ -36,16 +36,14 @@ const Home = () => {
                 })
             })
             const value = await response.json()
-            console.log(value)
             if (value.statusCode === 201) {
                 setGotURL(true)
                 setShortURL(value.data.value.shortUrl)
                 setUrls((pre) => [...pre, value.data.value])
                 toast.success('Created a short URL');
             } else if (value.statusCode === 400) {
-                toast.error(value.data.message);
+                toast.error(value.message);
             } else if (value.statusCode === 422) {
-                console.log("hellll")
                 let firstELement = value.errors[0]
                 let errorMessage = ""
                 if ("longUrl" in firstELement) {
@@ -55,7 +53,6 @@ const Home = () => {
                 } else if ("userId" in firstELement) {
                     errorMessage = firstELement["userId"]
                 }
-                console.log(errorMessage)
                 toast.error(errorMessage)
             }
         } catch (error) {
@@ -64,14 +61,11 @@ const Home = () => {
     }
 
     const fetchUrls = useCallback(async () => {
-        console.log("user", user)
         try {
             const response = await fetch(`http://localhost:8080/api/v1/url/myurls/${user.data._id}`)
             const data = await response.json()
-            console.log(data)
             if (data.statusCode === 200) {
                 setUrls(data.data.value)
-                console.log("data GIt", data.value)
             }
         } catch (error) {
             console.log(error.message)
@@ -82,12 +76,10 @@ const Home = () => {
         let urlIndex = urls.findIndex((el) => el._id == id)
         let tempUrlArray = [...urls]
         tempUrlArray[urlIndex].clicked = tempUrlArray[urlIndex].clicked + 1
-        console.log(tempUrlArray)
         setUrls(tempUrlArray)
     }
 
     useEffect(() => {
-        console.log("got Value")
         fetchUrls()
     }, [fetchUrls])
 

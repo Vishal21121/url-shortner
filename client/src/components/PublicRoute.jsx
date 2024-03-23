@@ -4,7 +4,6 @@ import { Navigate } from 'react-router-dom'
 
 const PublicRoute = ({ children }) => {
     const { user } = useUserContext()
-    console.log({ user })
     if (user) return <Navigate to="/" replace />
     return children
 }

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 
 const UrlCard = ({ el, clickHandler }) => {
-    console.log(el)
     let dateStr = el.createdAt
     let date = new Date(dateStr);
     let options = {

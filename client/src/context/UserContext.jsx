@@ -68,7 +68,6 @@ const UserContextProvider = ({ children }) => {
     }
 
     const login = async (userData) => {
-        console.log(userData)
         if (userData.email === "") {
             toast.error("Please provide email")
             return
@@ -105,7 +104,6 @@ const UserContextProvider = ({ children }) => {
                 }
                 toast.error(message)
             }
-            console.log(data)
         } catch (error) {
             console.log(error.message)
         }
@@ -145,7 +143,6 @@ const UserContextProvider = ({ children }) => {
             else if (data.statusCode === 401) {
                 const data = getItem("user")
                 setUser(data)
-                console.log("user from local", data)
             }
         } catch (error) {
             console.log(error)
