@@ -23,7 +23,7 @@ const Home = () => {
             return toast.error("Please provide a valid URL")
         }
         try {
-            const response = await fetch("http://localhost:8080/api/v1/url/create", {
+            const response = await fetch(`${import.meta.env.SERVER_URI}/api/v1/url/create`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -62,7 +62,7 @@ const Home = () => {
 
     const fetchUrls = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/url/myurls/${user.data._id}`)
+            const response = await fetch(`${import.meta.env.SERVER_URI}/api/v1/url/myurls/${user.data._id}`)
             const data = await response.json()
             if (data.statusCode === 200) {
                 setUrls(data.data.value)

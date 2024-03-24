@@ -33,7 +33,7 @@ const UserContextProvider = ({ children }) => {
             toast.error("Please provide username")
         }
         try {
-            const response = await fetch("http://localhost:8080/api/v1/users/createAccount", {
+            const response = await fetch(`${import.meta.env.SERVER_URI}/api/v1/users/createAccount`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -77,7 +77,7 @@ const UserContextProvider = ({ children }) => {
             return
         }
         try {
-            const response = await fetch("http://localhost:8080/api/v1/users/login", {
+            const response = await fetch(`${import.meta.env.SERVER_URI}/api/v1/users/login`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -111,7 +111,7 @@ const UserContextProvider = ({ children }) => {
 
     const logOut = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/users/logout", {
+            const response = await fetch(`${import.meta.env.SERVER_URI}/api/v1/users/logout`, {
                 credentials: "include"
             })
             const data = await response.json()
@@ -127,7 +127,7 @@ const UserContextProvider = ({ children }) => {
 
     const fetchUserDetails = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/users/user-details", {
+            const response = await fetch(`${import.meta.env.SERVER_URI}/api/v1/users/user-details`, {
                 method: "GET",
                 credentials: "include",
                 headers: {

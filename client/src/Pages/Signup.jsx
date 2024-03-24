@@ -15,7 +15,7 @@ const Signup = () => {
 
     const googleSignup = async () => {
         try {
-            window.open("http://localhost:8080/api/v1/users/google", "_self")
+            window.open(`${import.meta.env.SERVER_URI}/api/v1/users/google`, "_self")
         } catch (error) {
             console.log(error)
         }
@@ -23,7 +23,7 @@ const Signup = () => {
 
     const githubSignup = async () => {
         try {
-            window.open("http://localhost:8080/api/v1/users/github", "_self")
+            window.open(`${import.meta.env.SERVER_URI}/api/v1/users/github`, "_self")
         } catch (error) {
             console.log(error)
         }
