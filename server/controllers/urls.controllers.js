@@ -5,6 +5,8 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
 import { connectToRedis } from "../db/dbConfig.js";
+import dotenv from "dotenv"
+dotenv.config()
 
 const client = connectToRedis()
 
@@ -18,7 +20,7 @@ export const createNewShortUrl = asyncHandler(async (req, res) => {
     if (foundAliase) {
         throw new ApiError(400, "This aliase already exists", [])
     }
-    const createdUrl = await Url.create({ aliase: aliase, redirectUrl: longUrl, clicked: 0, userId: userId, shortUrl: `http://localhost:8080/${aliase}` })
+    const createdUrl = await Url.create({ aliase: aliase, redirectUrl: longUrl, clicked: 0, userId: userId, shortUrl: `${process.env.SERVER_URI}/${aliase}` })
     await client.set(`url:${aliase}`, createdUrl.redirectUrl)
     return res.status(201).json(new ApiResponse(
         201,
