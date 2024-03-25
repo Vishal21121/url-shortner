@@ -25,7 +25,7 @@ connectToDB()
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(express.static("./dist"))
+// app.use(express.static("./dist"))
 app.use(cors(
     {
         origin: ['http://localhost:5173'],
@@ -48,9 +48,9 @@ app.use("/api/v1/users", userRouter)
 app.use("/:id", findLongUrl)
 
 // providing the static files on routes other than above routes
-app.get("*", (req, res) => {
-    res.status(200).sendFile(path.resolve(__dirname, "./dist/index.html"))
-})
+// app.get("*", (req, res) => {
+//     res.status(200).sendFile(path.resolve(__dirname, "./dist/index.html"))
+// })
 app.use(errorHandler)
 
 app.listen(port, () => {

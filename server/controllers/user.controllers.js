@@ -18,7 +18,7 @@ export const createUser = asyncHandler(async (req, res) => {
     return res.status(201).json(new ApiResponse(
         201,
         {
-            data: userCreated
+            ...userCreated
         },
         "User created successfully"
     ))
