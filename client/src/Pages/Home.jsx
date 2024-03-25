@@ -91,8 +91,8 @@ const Home = () => {
                 <button className="btn btn-ghost text-xl" onClick={logOut} ><FiLogOut className='mt-1' />LogOut</button>
             </div>
             <div className='flex flex-col items-center sm:flex-row sm:items-baseline gap-4 w-full h-[80%] '>
-                <div className='w-3/4 sm:w-1/2 mt-8 flex flex-col justify-center max-h-screen h-fit'>
-                    <div className='ring-2 ring-gray-600 mt-8 ml-8 px-4 gap-4 w-3/4 flex flex-col items-center rounded pb-4 pt-2 h-full'>
+                <div className='w-3/4 sm:w-1/2 mt-8 flex flex-col justify-center max-h-screen h-fit '>
+                    <div className='ring-2 ring-gray-600 mt-8 px-4 gap-4 w-full sm:w-3/4 sm:ml-8 flex flex-col items-center rounded pb-4 pt-2 h-full'>
                         <div className='flex gap-1 items-center'>
                             <IoIosLink className='text-white text-lg' />
                             <p className='text-white text-base font-semibold'>Shorten a long URL</p>
@@ -109,10 +109,10 @@ const Home = () => {
                                             <p className='text-lg text-white'>Short URL</p>
                                             <input type="text" placeholder="" className="input input-bordered w-full" value={shortURL} />
                                         </div>
-                                        <div className='flex gap-2 mx-auto'>
-                                            <button className='btn btn-active text-lg' onClick={async () => await navigator.clipboard.writeText(shortURL)}><FaCopy className='text-2xl' />Copy</button>
+                                        <div className='flex gap-2 justify-center mx-auto w-full'>
+                                            <button className='btn btn-active text-base sm:text-lg' onClick={async () => await navigator.clipboard.writeText(shortURL)}><FaCopy className='text-lg sm:text-2xl' />Copy</button>
                                             <button
-                                                className='btn btn-accent text-lg text-gray-700'
+                                                className='btn btn-accent text-base sm:text-lg text-gray-700'
                                                 onClick={() => { setData({ longURL: "", aliase: "" }); setGotURL(false); }}
                                             >Shorten another</button>
                                         </div>
