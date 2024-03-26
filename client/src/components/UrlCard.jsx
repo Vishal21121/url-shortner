@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaCopy } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
 import { Link } from 'react-router-dom';
 
 
@@ -22,7 +23,10 @@ const UrlCard = ({ el, clickHandler }) => {
                 <p className='text-sm sm:text-base'>{el.clicked} clicks</p>
                 <p className='text-sm sm:text-base'>{formattedDate}</p>
             </div>
-            <button className='btn btn-active text-lg w-1/2 sm:w-1/4 flex flex-row' onClick={async () => await navigator.clipboard.writeText(el.shortUrl)}><FaCopy className='text-md' />Copy</button>
+            <div className='flex gap-2 w-full justify-center'>
+                <button className='btn btn-active text-lg w-2/5 sm:w-1/4 flex flex-row' onClick={async () => await navigator.clipboard.writeText(el.shortUrl)}><FaCopy className='text-md' />Copy</button>
+                <button className='btn btn-active text-lg w-2/5 sm:w-1/4 flex flex-row'><MdDelete className='text-md' />Delete</button>
+            </div>
         </div>
     )
 }

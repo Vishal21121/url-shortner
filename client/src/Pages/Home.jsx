@@ -52,7 +52,7 @@ const Home = () => {
                 } else if ("aliase" in firstELement) {
                     errorMessage = firstELement["aliase"]
                 } else if ("userId" in firstELement) {
-                    errorMessage = firstELement["userId"]
+                    errorMessage = "server error"
                 }
                 toast.error(errorMessage)
             }
