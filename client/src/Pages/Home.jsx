@@ -132,7 +132,7 @@ const Home = () => {
                         {
                             urls.length > 0 ? (
                                 urls.map((el) => (
-                                    <UrlCard key={el._id} el={el} clickHandler={clickHandler} />
+                                    <UrlCard key={el._id} el={el} clickHandler={clickHandler} setUrls={setUrls} urls={urls} />
                                 ))
                             ) : <p>Nothing to display</p>
                         }
