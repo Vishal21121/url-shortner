@@ -9,11 +9,6 @@ import { errorHandler } from "./middleware/error.middleware.js"
 import passport from "passport"
 import cookieParser from "cookie-parser"
 import { findLongUrl } from "./controllers/urls.controllers.js"
-import { fileURLToPath } from "url"
-import path from "path"
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 dotenv.config()
 
@@ -25,7 +20,6 @@ connectToDB()
 
 app.use(express.json())
 app.use(cookieParser())
-// app.use(express.static("./dist"))
 app.use(cors(
     {
         origin: ['http://localhost:5173', process.env.CLIENT_URI],
@@ -47,10 +41,6 @@ app.use("/api/v1/url", urlRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/:id", findLongUrl)
 
-// providing the static files on routes other than above routes
-// app.get("*", (req, res) => {
-//     res.status(200).sendFile(path.resolve(__dirname, "./dist/index.html"))
-// })
 app.use(errorHandler)
 
 app.listen(port, () => {

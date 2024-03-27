@@ -18,6 +18,7 @@ const UserContextProvider = ({ children }) => {
 
     const navigate = useNavigate()
     const [user, setUser] = useState(null)
+    const [isLoggedin, setIsLoggedin] = useState(false)
     const { getItem, setItem, deleteItem } = useLocalStorage()
 
     const registerUser = async (userData) => {
@@ -140,6 +141,8 @@ const UserContextProvider = ({ children }) => {
                 setUser(data)
                 setItem("user", data)
                 navigate("/")
+                // toast.success("Logged in successfully")
+                setIsLoggedin(true)
             }
             else if (data.statusCode === 401) {
                 const data = getItem("user")
@@ -155,7 +158,7 @@ const UserContextProvider = ({ children }) => {
     }, [])
 
     return (
-        <UserContext.Provider value={{ registerUser, login, user, logOut }}>
+        <UserContext.Provider value={{ registerUser, login, user, logOut, isLoggedin, setIsLoggedin }}>
             {children}
         </UserContext.Provider>
     )

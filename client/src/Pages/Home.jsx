@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { IoIosLink } from "react-icons/io";
 import { FaCopy } from "react-icons/fa6";
 import { toast } from 'react-toastify';
@@ -9,7 +9,7 @@ import UrlCard from '../components/UrlCard';
 import { FiLogOut } from "react-icons/fi";
 
 const Home = () => {
-    const { user, logOut } = useUserContext()
+    const { user, logOut, isLoggedin, setIsLoggedin } = useUserContext()
     const [data, setData] = useState({
         longURL: "",
         aliase: ""
@@ -17,6 +17,7 @@ const Home = () => {
     const [gotURL, setGotURL] = useState(false)
     const [shortURL, setShortURL] = useState("")
     const [urls, setUrls] = useState([])
+    const loggedinRendered = useRef(false)
 
     const handleClick = async () => {
         if (!validurl.isUri(data.longURL)) {
@@ -81,8 +82,15 @@ const Home = () => {
     }
 
     useEffect(() => {
+        if (isLoggedin && !loggedinRendered.current) {
+            toast.success("Loggedin successfully")
+            loggedinRendered.current = true
+        }
         fetchUrls()
-    }, [fetchUrls])
+        return () => {
+            setIsLoggedin(false)
+        }
+    }, [fetchUrls, isLoggedin])
 
     return (
         <div className='flex flex-col w-full items-center h-screen'>
